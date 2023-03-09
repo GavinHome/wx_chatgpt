@@ -40,6 +40,8 @@ const configuration = new Configuration({
   apiKey: process.env.API_KEY,
 });
 
+console.log("openai api key: " + process.env.API_KEY)
+
 const openai = new OpenAIApi(configuration);
 
 async function buildCtxPrompt({ FromUserName }) {
