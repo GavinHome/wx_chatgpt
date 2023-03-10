@@ -74,7 +74,7 @@ async function getAIIMAGE(prompt) {
 
   //const imageURL = response?.data?.data?.[0].url || 'AI 作画挂了';
 
-  return "https://img0.baidu.com/it/u=4279469081,1981101770&fm=253&fmt=auto&app=138&f=JPEG?w=450&h=370";
+  return 'AI 作画挂了';
 }
 
 // 获取 AI 回复消息
