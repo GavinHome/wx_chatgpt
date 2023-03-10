@@ -5,8 +5,7 @@
   "description": "微信云托管 koa 框架模板",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "node test.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "Apache-2.0",
@@ -20,7 +19,6 @@
     "koa-logger": "^3.2.1",
     "koa-router": "^10.1.1",
     "mysql2": "^2.3.3",
-    "openai": "^3.1.0",
     "sequelize": "^6.13.0"
   },
   "repository": {

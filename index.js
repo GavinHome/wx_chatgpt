@@ -66,14 +66,6 @@ async function getAIResponse(content) {
 }
 
 async function getAIIMAGE(prompt) {
-  // const response = await openai.createImage({
-  //   prompt: prompt,
-  //   n: 1,
-  //   size: '1024x1024',
-  // });
-
-  //const imageURL = response?.data?.data?.[0].url || 'AI 作画挂了';
-
   return 'AI 作画挂了';
 }
 
