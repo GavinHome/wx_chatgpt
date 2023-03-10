@@ -1,4 +1,5 @@
-const https = require("https");
+var http = require('http');
+var https = require('https');
 
 const sleep = time =>
   new Promise(resolve => {
@@ -14,8 +15,8 @@ const strip = (str, chars) => {
   return newStr;
 };
 
-
 const post =  async (url, data, token)  => {
+  var client = (url.protocol == "https:") ? https : http;
   const options = {
     method: "POST",
     headers: {
@@ -24,10 +25,9 @@ const post =  async (url, data, token)  => {
     },
     timeout: 60000, // in ms
   };
-  console.log(data);
-  console.log(options);
+  console.log("url:" + url, data, options);
   return new Promise((resolve, reject) => {
-    const req = https.request(url, options, (res) => {
+    const req = client.request(url, options, (res) => {
       if (res.statusCode < 200 || res.statusCode > 299) {
         console.log(res.statusCode)
         return reject(new Error(`HTTP status code ${res.statusCode}`));
@@ -53,7 +53,7 @@ const post =  async (url, data, token)  => {
       reject(new Error("Request time out"));
     });
 
-    req.write(data);
+    req.write(JSON.stringify(data));
     req.end();
   });
 }

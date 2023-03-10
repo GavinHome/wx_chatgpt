@@ -60,9 +60,9 @@ async function getAIResponse(content) {
   var data = {
     Content: content
   };
-
+  console.log("base_url" + base_url)
   const completion = await post(base_url + "/v1/chat/completions", data, token);
-  return (completion?.choices?.[0].message?.content || "AI 挂了").trim();
+  return (completion?.completion?.choices?.[0].message?.content || "AI 挂了").trim();
 }
 
 async function getAIIMAGE(prompt) {
