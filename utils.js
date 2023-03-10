@@ -1,3 +1,5 @@
+const https = require("https");
+
 const sleep = time =>
   new Promise(resolve => {
     setTimeout(resolve, time);
@@ -12,7 +14,52 @@ const strip = (str, chars) => {
   return newStr;
 };
 
+
+const post =  async (url, data, token)  => {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "token" : token
+    },
+    timeout: 60000, // in ms
+  };
+  console.log(data);
+  console.log(options);
+  return new Promise((resolve, reject) => {
+    const req = https.request(url, options, (res) => {
+      if (res.statusCode < 200 || res.statusCode > 299) {
+        console.log(res.statusCode)
+        return reject(new Error(`HTTP status code ${res.statusCode}`));
+      }
+
+      const body = [];
+      res.on("data", (chunk) => body.push(chunk));
+      res.on("end", () => {
+        const resString = Buffer.concat(body).toString();
+        console.log(resString)
+        resolve(JSON.parse(resString));
+      });
+    });
+
+    req.on("error", (err) => {
+      console.log(err)
+      reject(err);
+    });
+
+    req.on("timeout", () => {
+      req.destroy();
+      console.log("Request time out")
+      reject(new Error("Request time out"));
+    });
+
+    req.write(data);
+    req.end();
+  });
+}
+
 module.exports = {
   sleep,
   strip,
+  post
 };

@@ -1,3 +1,4 @@
+const { Configuration, OpenAIApi } = require('openai');
 const Koa = require("koa");
 const Router = require("koa-router");
 const logger = require("koa-logger");
@@ -15,7 +16,7 @@ const {
   AI_TYPE_IMAGE,
 } = require("./db");
  
-const { sleep, strip, post } = require('./utils');
+const { sleep, strip } = require('./utils');
 
 const router = new Router();
 
@@ -35,6 +36,13 @@ const LIMIT_AI_IMAGE_COUNT = 5;
 
 const LIMIT_COUNT_RESPONSE = '对不起，因为ChatGPT调用收费，您的免费使用额度已用完~'
 
+const configuration = new Configuration({
+  apiKey: process.env.API_KEY,
+});
+
+console.log("openai api key: " + process.env.API_KEY)
+
+const openai = new OpenAIApi(configuration);
 
 async function buildCtxPrompt({ FromUserName }) {
   // 获取最近对话
@@ -54,27 +62,29 @@ async function buildCtxPrompt({ FromUserName }) {
         .join('\n');
 }
 
-async function getAIResponse(content) {
-  const base_url = process.env.OPENAI_BASE_URL
-  const token = process.env.API_KEY
-  var data = {
-    Content: content
-  };
+async function getAIResponse(prompt) {
+  const completion = await openai.createCompletion({
+    model: 'gpt-3.5-turbo-0301',
+    prompt,
+    max_tokens: 1024,
+    temperature: 0.1,
+  });
 
-  const completion = await post(base_url + "/v1/chat/completions", data, token);
-  return (completion?.choices?.[0].message?.content || "AI 挂了").trim();
+  const response = (completion?.data?.choices?.[0].text || 'AI 挂了').trim();
+
+  return strip(response, ['\n', 'A: ']);
 }
 
 async function getAIIMAGE(prompt) {
-  // const response = await openai.createImage({
-  //   prompt: prompt,
-  //   n: 1,
-  //   size: '1024x1024',
-  // });
+  const response = await openai.createImage({
+    prompt: prompt,
+    n: 1,
+    size: '1024x1024',
+  });
 
-  //const imageURL = response?.data?.data?.[0].url || 'AI 作画挂了';
+  const imageURL = response?.data?.data?.[0].url || 'AI 作画挂了';
 
-  return "https://img0.baidu.com/it/u=4279469081,1981101770&fm=253&fmt=auto&app=138&f=JPEG?w=450&h=370";
+  return imageURL;
 }
 
 // 获取 AI 回复消息
