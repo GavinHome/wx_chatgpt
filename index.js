@@ -30,8 +30,8 @@ const AI_IMAGE_KEY = '作画';
 
 const AI_THINKING_MESSAGE = '我已经在编了，请稍等几秒后复制原文再说一遍~';
 
-const LIMIT_AI_TEXT_COUNT = 10;
-const LIMIT_AI_IMAGE_COUNT = 5;
+const LIMIT_AI_TEXT_COUNT = 100;
+const LIMIT_AI_IMAGE_COUNT = 20;
 
 const LIMIT_COUNT_RESPONSE = '对不起，因为ChatGPT调用收费，您的免费使用额度已用完~'
 
