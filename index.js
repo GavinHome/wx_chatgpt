@@ -126,7 +126,7 @@ async function getAIMessage({ Content, FromUserName }) {
   if (aiType === AI_TYPE_TEXT) {
     // 构建带上下文的 prompt
     const prompt = await buildCtxPrompt({ Content, FromUserName });
-
+    console.log("prompt: ", prompt)
     // 请求远程消息
     response = await getAIResponse(prompt);
   }
