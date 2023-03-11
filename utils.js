@@ -25,7 +25,7 @@ const post =  async (url, data, token)  => {
     },
     timeout: 60000, // in ms
   };
-  console.log("url:" + url, data, options);
+  console.log("data:", data);
   return new Promise((resolve, reject) => {
     const req = client.request(url, options, (res) => {
       if (res.statusCode < 200 || res.statusCode > 299) {
