@@ -44,12 +44,13 @@ async function buildCtxPrompt({ FromUserName }) {
       aiType: AI_TYPE_TEXT,
     },
     limit: 10,
-    order: [['updatedAt', 'ASC']],
+    order: [['updatedAt', 'DESC']],
   });
   // 只有一条的时候，就不用封装上下文了
   return messages.length === 1
     ? messages[0].request
     : messages
+        .reverse()
         .map(({ response, request }) => `Q: ${request}\n A: ${response}`)
         .join('\n');
 }
