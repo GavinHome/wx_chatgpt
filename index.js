@@ -61,7 +61,6 @@ async function getAIResponse(content) {
   var data = {
     Content: content
   };
-  console.log("base_url" + base_url)
   const completion = await post(base_url + "/v1/chat/completions", data, token);
   return (completion?.completion?.choices?.[0].message?.content || "AI 挂了").trim();
 }
@@ -126,7 +125,7 @@ async function getAIMessage({ Content, FromUserName }) {
   if (aiType === AI_TYPE_TEXT) {
     // 构建带上下文的 prompt
     const prompt = await buildCtxPrompt({ Content, FromUserName });
-    console.log("prompt: ", prompt)
+    // console.log("prompt: ", prompt)
     // 请求远程消息
     response = await getAIResponse(prompt);
   }
