@@ -43,7 +43,7 @@ async function buildCtxPrompt({ FromUserName }) {
       fromUser: FromUserName,
       aiType: AI_TYPE_TEXT,
     },
-    limit: LIMIT_AI_TEXT_COUNT,
+    limit: 10,
     order: [['updatedAt', 'ASC']],
   });
   // 只有一条的时候，就不用封装上下文了
