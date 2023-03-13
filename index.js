@@ -65,8 +65,14 @@ async function getAIResponse(content) {
   return (completion?.completion?.choices?.[0].message?.content || "AI 挂了").trim();
 }
 
-async function getAIIMAGE(prompt) {
-  return 'AI 作画挂了';
+async function getAIIMAGE(content) {
+  const base_url = process.env.OPENAI_BASE_URL
+  const token = process.env.API_KEY
+  var data = {
+    Content: content
+  };
+  const response = await post(base_url + "/v1/images/generations", data, token);
+  return (response?.response?.data?.[0].url || "AI 作画挂了").trim();
 }
 
 // 获取 AI 回复消息
